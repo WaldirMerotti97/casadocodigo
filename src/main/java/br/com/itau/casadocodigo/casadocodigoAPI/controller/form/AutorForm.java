@@ -4,6 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import br.com.itau.casadocodigo.casadocodigoAPI.config.validacao.anotacoes.UniqueValue;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Autor;
 
 public class AutorForm {
@@ -12,6 +13,7 @@ public class AutorForm {
 	private String nome;
 	@Email(message = "O email inserido deve ser válido!")
 	@NotBlank
+	@UniqueValue(domainClass = Autor.class, fieldName = "email")
 	private String email;
 	@NotBlank
 	@Size(min = 0, max = 400)

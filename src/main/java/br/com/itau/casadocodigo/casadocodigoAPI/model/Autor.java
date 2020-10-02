@@ -1,18 +1,18 @@
 package br.com.itau.casadocodigo.casadocodigoAPI.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "autor")
 public class Autor {
 
 	@Id
@@ -22,13 +22,15 @@ public class Autor {
 	private String nome;
 	private String email;
 	private String descricao;
+	@OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
+	private List<Livro> livros;
 
 	public Autor(String nome, String email, String descricao) {
 		this.nome = nome;
 		this.email = email;
 		this.descricao = descricao;
 	}
-	
+
 	@Deprecated
 	public Autor() {
 

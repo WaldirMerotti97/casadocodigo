@@ -12,30 +12,32 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "categoria")
-public class Categoria {
+@Table(name = "pais")
+public class Pais {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private int id;
 	private String nome;
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-	private List<Livro> livros;
+	@OneToMany(mappedBy = "pais", cascade = CascadeType.ALL)
+	private List<Estado> estados;
+	@OneToMany(mappedBy = "pais", cascade = CascadeType.ALL)
+	private List<NovaCompra> clientes;
 
-	public Categoria(@NotBlank String nome) {
+	public Pais(@NotBlank String nome) {
 		this.nome = nome;
 	}
 
 	@Deprecated
-	public Categoria() {
+	public Pais() {
 
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
