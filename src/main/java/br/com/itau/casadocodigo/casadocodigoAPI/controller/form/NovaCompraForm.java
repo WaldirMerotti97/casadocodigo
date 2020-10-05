@@ -2,10 +2,14 @@ package br.com.itau.casadocodigo.casadocodigoAPI.controller.form;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import br.com.itau.casadocodigo.casadocodigoAPI.model.NovaCompra;
+import br.com.itau.casadocodigo.casadocodigoAPI.model.NovaCompraItensCarrinho;
+import br.com.itau.casadocodigo.casadocodigoAPI.config.validacao.anotacoes.QuantidadeLivros;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Estado;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Pais;
 
@@ -33,6 +37,10 @@ public class NovaCompraForm {
 	private String telefone;
 	@NotBlank
 	private String cep;
+	@Valid
+	@QuantidadeLivros
+	@NotNull
+	private CarrinhoComprasForm carrinhoComprasForm;
 
 	public NovaCompraForm(@Email(message = "O email inserido deve ser válido!") @NotBlank String email,
 			@NotBlank String nome, @NotBlank String sobrenome, @NotBlank String documento, @NotBlank String endereco,
@@ -55,7 +63,7 @@ public class NovaCompraForm {
 
 		return new NovaCompra(this.email, this.nome, this.sobrenome, this.documento, this.endereco, this.complemento,
 				this.cidade, pais.isPresent() ? pais.get() : null, estado.isPresent() ? estado.get() : null,
-				this.telefone, this.cep);
+				this.telefone, this.cep, this.carrinhoComprasForm);
 	}
 
 	public String getEmail() {
@@ -144,6 +152,14 @@ public class NovaCompraForm {
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+
+	public CarrinhoComprasForm getCarrinhoComprasForm() {
+		return carrinhoComprasForm;
+	}
+
+	public void setCarrinhoComprasForm(CarrinhoComprasForm carrinhoComprasForm) {
+		this.carrinhoComprasForm = carrinhoComprasForm;
 	}
 
 }

@@ -14,7 +14,6 @@ import org.springframework.validation.Validator;
 
 import br.com.itau.casadocodigo.casadocodigoAPI.controller.form.NovaCompraForm;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Estado;
-import br.com.itau.casadocodigo.casadocodigoAPI.repository.EstadoRepository;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.PaisRepository;
 
 @Component

@@ -1,5 +1,8 @@
 package br.com.itau.casadocodigo.casadocodigoAPI.model;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,9 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+
+import br.com.itau.casadocodigo.casadocodigoAPI.controller.form.CarrinhoComprasForm;
 
 @Entity
 @Table(name = "compras")
@@ -33,9 +39,13 @@ public class NovaCompra {
 	private Estado estado;
 	private String telefone;
 	private String cep;
+	private BigDecimal totalItens;
+	@OneToMany(mappedBy = "novaCompra", cascade = CascadeType.ALL)
+	private List<NovaCompraItensCarrinho> novaCompraDetalhes;
 
-	public NovaCompra(String email, String nome, String sobrenome, String documento, String endereco, String complemento,
-			String cidade, Pais pais, Estado estado, String telefone, String cep) {
+	public NovaCompra(String email, String nome, String sobrenome, String documento, String endereco,
+			String complemento, String cidade, Pais pais, Estado estado, String telefone, String cep,
+			CarrinhoComprasForm carrinhoComprasForm) {
 		this.email = email;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -47,11 +57,12 @@ public class NovaCompra {
 		this.estado = estado;
 		this.telefone = telefone;
 		this.cep = cep;
+		this.totalItens = carrinhoComprasForm.getTotal();
 	}
-	
+
 	@Deprecated
 	public NovaCompra() {
-		
+
 	}
 
 	public int getId() {
@@ -148,6 +159,14 @@ public class NovaCompra {
 
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+
+	public BigDecimal getTotalItens() {
+		return totalItens;
+	}
+
+	public void setTotalItens(BigDecimal totalItens) {
+		this.totalItens = totalItens;
 	}
 
 }
