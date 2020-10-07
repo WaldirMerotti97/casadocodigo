@@ -11,6 +11,7 @@ public class QuantidadeLivrosValidator implements ConstraintValidator<Quantidade
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 
+		//1
 		CarrinhoComprasForm carrinhoComprasForm = (CarrinhoComprasForm) value;
 
 		return carrinhoComprasForm.getTotal().intValue() == carrinhoComprasForm.getItens().size();

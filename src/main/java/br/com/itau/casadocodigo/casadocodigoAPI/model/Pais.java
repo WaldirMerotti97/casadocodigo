@@ -11,14 +11,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "pais")
 public class Pais {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private int id;
 	private String nome;
+	// 1
 	@OneToMany(mappedBy = "pais", cascade = CascadeType.ALL)
 	private List<Estado> estados;
 	@OneToMany(mappedBy = "pais", cascade = CascadeType.ALL)

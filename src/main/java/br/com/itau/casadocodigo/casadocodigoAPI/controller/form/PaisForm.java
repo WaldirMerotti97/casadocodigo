@@ -1,18 +1,13 @@
 package br.com.itau.casadocodigo.casadocodigoAPI.controller.form;
 
-import javax.persistence.CascadeType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 import br.com.itau.casadocodigo.casadocodigoAPI.config.validacao.anotacoes.UniqueValue;
-import br.com.itau.casadocodigo.casadocodigoAPI.config.validacao.anotacoes.VerificaExistenciaTuplaRelacao;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Pais;
 
 public class PaisForm {
 
+	//1
 	@NotBlank
 	@UniqueValue(domainClass = Pais.class, fieldName = "nome")
 	private String nome;

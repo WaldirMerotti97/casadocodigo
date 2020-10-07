@@ -33,6 +33,7 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.LivroRepository;
 @RequestMapping(value = "casadocodigo/categoria/")
 public class CategoriaController {
 
+	// 1
 	private CategoriaRepository categoriaRepository;
 
 	public CategoriaController(CategoriaRepository categoriaRepository) {
@@ -41,16 +42,13 @@ public class CategoriaController {
 
 	}
 
-//	@InitBinder
-//	public void init(WebDataBinder binder) {
-//		binder.addValidators(emailValidator);
-//	}
-
 	@PostMapping(value = "inserirCategoria")
 	@Transactional
+	//1
 	public ResponseEntity<Categoria> inserirCategoria(@RequestBody(required = true) @Valid CategoriaForm categoriaForm,
 			UriComponentsBuilder uriBuilder) {
 
+		//1
 		Categoria categoria = categoriaForm.converter();
 		categoriaRepository.save(categoria);
 

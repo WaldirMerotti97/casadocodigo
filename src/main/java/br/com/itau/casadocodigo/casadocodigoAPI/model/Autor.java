@@ -22,6 +22,7 @@ public class Autor {
 	private String nome;
 	private String email;
 	private String descricao;
+	//1
 	@OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
 	private List<Livro> livros;
 

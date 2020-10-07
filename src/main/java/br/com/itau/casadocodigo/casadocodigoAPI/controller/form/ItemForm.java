@@ -9,6 +9,7 @@ import br.com.itau.casadocodigo.casadocodigoAPI.model.Livro;
 
 public class ItemForm {
 
+	// 1
 	@VerificaExistenciaTuplaRelacao(domainClass = Livro.class, fieldName = "id")
 	private int idLivro;
 	@Min(value = 1)

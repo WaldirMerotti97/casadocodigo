@@ -37,6 +37,7 @@ public class NovaCompraForm {
 	private String telefone;
 	@NotBlank
 	private String cep;
+	// 1
 	@Valid
 	@QuantidadeLivros
 	@NotNull
@@ -59,11 +60,12 @@ public class NovaCompraForm {
 		this.cep = cep;
 	}
 
+	// 1 //1
 	public NovaCompra converter(Optional<Pais> pais, Optional<Estado> estado) {
-
+		// 1
 		return new NovaCompra(this.email, this.nome, this.sobrenome, this.documento, this.endereco, this.complemento,
 				this.cidade, pais.isPresent() ? pais.get() : null, estado.isPresent() ? estado.get() : null,
-				this.telefone, this.cep, this.carrinhoComprasForm);
+				this.telefone, this.cep, this.carrinhoComprasForm, null, null);
 	}
 
 	public String getEmail() {

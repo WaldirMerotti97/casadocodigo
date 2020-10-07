@@ -33,9 +33,11 @@ public class Livro {
 	private int nroPaginas;
 	private String identificadorISBN;
 	private LocalDate dataPublicacao;
+	//1
 	@ManyToOne(cascade = { CascadeType.ALL}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
 	private Categoria categoria;
+	//1
 	@ManyToOne(cascade = { CascadeType.ALL },  fetch = FetchType.LAZY)
 	@JoinColumn(name = "autor_id", referencedColumnName = "id")
 	private Autor autor;

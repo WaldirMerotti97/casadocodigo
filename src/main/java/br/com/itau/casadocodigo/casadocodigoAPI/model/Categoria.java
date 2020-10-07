@@ -19,6 +19,7 @@ public class Categoria {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	//1
 	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
 	private List<Livro> livros;
 

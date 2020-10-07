@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.itau.casadocodigo.casadocodigoAPI.controller.form.CarrinhoComprasForm;
 
 @Entity
@@ -31,21 +33,27 @@ public class NovaCompra {
 	private String endereco;
 	private String complemento;
 	private String cidade;
+	// 1
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pais_id", referencedColumnName = "id")
 	private Pais pais;
+	// 1
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "estado_id", referencedColumnName = "id")
 	private Estado estado;
 	private String telefone;
 	private String cep;
 	private BigDecimal totalItens;
+	// 1
+	@JsonIgnore
 	@OneToMany(mappedBy = "novaCompra", cascade = CascadeType.ALL)
 	private List<NovaCompraItensCarrinho> novaCompraDetalhes;
+	private BigDecimal valorSemDesconto;
+	private BigDecimal valorComDesconto;
 
 	public NovaCompra(String email, String nome, String sobrenome, String documento, String endereco,
 			String complemento, String cidade, Pais pais, Estado estado, String telefone, String cep,
-			CarrinhoComprasForm carrinhoComprasForm) {
+			CarrinhoComprasForm carrinhoComprasForm, BigDecimal valorSemDesconto, BigDecimal valorComDesconto) {
 		this.email = email;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -58,6 +66,8 @@ public class NovaCompra {
 		this.telefone = telefone;
 		this.cep = cep;
 		this.totalItens = carrinhoComprasForm.getTotal();
+		this.valorComDesconto = valorComDesconto;
+		this.valorSemDesconto = valorSemDesconto;
 	}
 
 	@Deprecated
@@ -167,6 +177,30 @@ public class NovaCompra {
 
 	public void setTotalItens(BigDecimal totalItens) {
 		this.totalItens = totalItens;
+	}
+
+	public List<NovaCompraItensCarrinho> getNovaCompraDetalhes() {
+		return novaCompraDetalhes;
+	}
+
+	public void setNovaCompraDetalhes(List<NovaCompraItensCarrinho> novaCompraDetalhes) {
+		this.novaCompraDetalhes = novaCompraDetalhes;
+	}
+
+	public BigDecimal getValorSemDesconto() {
+		return valorSemDesconto;
+	}
+
+	public void setValorSemDesconto(BigDecimal valorSemDesconto) {
+		this.valorSemDesconto = valorSemDesconto;
+	}
+
+	public BigDecimal getValorComDesconto() {
+		return valorComDesconto;
+	}
+
+	public void setValorComDesconto(BigDecimal valorComDesconto) {
+		this.valorComDesconto = valorComDesconto;
 	}
 
 }

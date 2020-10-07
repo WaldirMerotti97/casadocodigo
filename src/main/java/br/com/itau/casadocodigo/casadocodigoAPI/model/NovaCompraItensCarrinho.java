@@ -1,5 +1,7 @@
 package br.com.itau.casadocodigo.casadocodigoAPI.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "compras_detalhes")
 public class NovaCompraItensCarrinho {
@@ -19,6 +25,9 @@ public class NovaCompraItensCarrinho {
 	private int id;
 	private int idLivro;
 	private int quantidade;
+
+	// 1
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "compra_id", referencedColumnName = "id")
 	private NovaCompra novaCompra;
@@ -56,6 +65,14 @@ public class NovaCompraItensCarrinho {
 
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	public NovaCompra getNovaCompra() {
+		return novaCompra;
+	}
+
+	public void setNovaCompra(NovaCompra novaCompra) {
+		this.novaCompra = novaCompra;
 	}
 
 }

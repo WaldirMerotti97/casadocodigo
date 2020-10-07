@@ -34,8 +34,11 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.LivroRepository;
 @RequestMapping(value = "casadocodigo/livro/")
 public class LivroController {
 
+	//1
 	private AutorRepository autorRepository;
+	//1
 	private CategoriaRepository categoriaRepository;
+	//1
 	private LivroRepository livroRepository;
 
 	public LivroController(AutorRepository autorRepository, CategoriaRepository categoriaRepository,
@@ -52,11 +55,15 @@ public class LivroController {
 
 	@PostMapping(value = "inserirLivro")
 	@Transactional
+	//1
 	public ResponseEntity<Livro> inserirLivro(@RequestBody(required = true) @Valid LivroForm livroForm,
 			UriComponentsBuilder uriBuilder) {
 
+		//1
 		Optional<Autor> autor = autorRepository.findByNome(livroForm.getAutor());
+		//1
 		Optional<Categoria> categoria = categoriaRepository.findByNome(livroForm.getCategoria());
+		//1
 		Livro livro = livroForm.converter(autor, categoria);
 		livroRepository.save(livro);
 

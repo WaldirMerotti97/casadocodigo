@@ -32,16 +32,20 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.EstadoRepository;
 @RequestMapping(value = "casadocodigo/locais/")
 public class LocaisController {
 
+	//1
 	@Autowired
 	private PaisRepository paisRepository;
+	//1
 	@Autowired
 	private EstadoRepository estadoRepository;
 
 	@PostMapping(value = "criarPais")
 	@Transactional
+	//1
 	public ResponseEntity<Pais> criarPais(@RequestBody(required = true) @Valid PaisForm paisForm,
 			UriComponentsBuilder uriBuilder) {
 
+		//1
 		Pais pais = paisForm.converter();
 		paisRepository.save(pais);
 
@@ -52,6 +56,7 @@ public class LocaisController {
 
 	@PostMapping(value = "criarEstado")
 	@Transactional
+	//1
 	public ResponseEntity<Estado> criarEstado(@RequestBody(required = true) @Valid EstadoForm estadoForm,
 			UriComponentsBuilder uriBuilder) {
 

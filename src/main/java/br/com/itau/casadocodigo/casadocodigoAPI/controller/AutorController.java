@@ -33,6 +33,7 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.LivroRepository;
 @RequestMapping(value = "casadocodigo/autor/")
 public class AutorController {
 
+	//1
 	private AutorRepository autorRepository;
 
 	public AutorController(AutorRepository autorRepository) {
@@ -47,9 +48,11 @@ public class AutorController {
 
 	@PostMapping(value = "inserirAutor")
 	@Transactional
+	//1
 	public ResponseEntity<Autor> insereAutor(@RequestBody(required = true) @Valid AutorForm autorForm,
 			UriComponentsBuilder uriBuilder) {
 
+		//1
 		Autor autor = autorForm.converter();
 		autorRepository.save(autor);
 

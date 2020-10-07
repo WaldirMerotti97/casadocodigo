@@ -21,6 +21,7 @@ public class CarrinhoCompras {
 	@NotBlank
 	@Min(value = 1)
 	private BigDecimal total;
+	//1
 	@Size(min = 1)
 	private List<ItemForm> itens;
 
