@@ -15,7 +15,7 @@ import br.com.itau.casadocodigo.casadocodigoAPI.model.Cupom;
 public class CupomForm {
 
 	@NotBlank
-	@UniqueValue(domainClass = Cupom.class, fieldName = "codigo")
+	//@UniqueValue(domainClass = Cupom.class, fieldName = "codigo")
 	private String codigo;
 	@NotNull
 	@Positive

@@ -1,43 +1,32 @@
-package br.com.itau.casadocodigo.casadocodigoAPI.model;
+package br.com.itau.casadocodigo.casadocodigoAPI.model.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Entity
-@Table(name = "autor")
-public class Autor {
+public class AutorDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime instanteRegistro = LocalDateTime.now();
 	private String nome;
 	private String email;
 	private String descricao;
-	// 1
-	@OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
-	private List<Livro> livros;
 
-	public Autor(String nome, String email, String descricao) {
+	@Deprecated
+	public AutorDTO() {
+
+	}
+
+	public AutorDTO(int id, String nome, String email, String descricao) {
+		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.descricao = descricao;
 	}
 
-	@Deprecated
-	public Autor() {
-
-	}
-
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -79,8 +68,8 @@ public class Autor {
 
 	@Override
 	public String toString() {
-		return "Autor [id=" + id + ", nome=" + nome + ", email=" + email + ", descricao=" + descricao
-				+ ", instanteCriacao=" + instanteRegistro + "]";
+		return "AutorDTO [id=" + id + ", instanteRegistro=" + instanteRegistro + ", nome=" + nome + ", email=" + email
+				+ ", descricao=" + descricao + "]";
 	}
 
 }

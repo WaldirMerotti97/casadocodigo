@@ -7,8 +7,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+
 import br.com.itau.casadocodigo.casadocodigoAPI.model.NovaCompra;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.NovaCompraItensCarrinho;
+import br.com.itau.casadocodigo.casadocodigoAPI.config.validacao.anotacoes.CpfCnpj;
 import br.com.itau.casadocodigo.casadocodigoAPI.config.validacao.anotacoes.QuantidadeLivros;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Estado;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Pais;
@@ -23,6 +27,7 @@ public class NovaCompraForm {
 	@NotBlank
 	private String sobrenome;
 	@NotBlank
+	@CpfCnpj
 	private String documento;
 	@NotBlank
 	private String endereco;

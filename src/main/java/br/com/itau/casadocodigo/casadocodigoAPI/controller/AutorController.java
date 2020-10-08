@@ -25,6 +25,7 @@ import br.com.itau.casadocodigo.casadocodigoAPI.controller.form.LivroForm;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Autor;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Categoria;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Livro;
+import br.com.itau.casadocodigo.casadocodigoAPI.model.dto.AutorDTO;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.AutorRepository;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.CategoriaRepository;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.LivroRepository;
@@ -33,7 +34,7 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.LivroRepository;
 @RequestMapping(value = "casadocodigo/autor/")
 public class AutorController {
 
-	//1
+	// 1
 	private AutorRepository autorRepository;
 
 	public AutorController(AutorRepository autorRepository) {
@@ -41,23 +42,19 @@ public class AutorController {
 
 	}
 
-//	@InitBinder
-//	public void init(WebDataBinder binder) {
-//		binder.addValidators(emailValidator);
-//	}
-
 	@PostMapping(value = "inserirAutor")
 	@Transactional
-	//1
-	public ResponseEntity<Autor> insereAutor(@RequestBody(required = true) @Valid AutorForm autorForm,
+	// 1
+	public ResponseEntity<AutorDTO> insereAutor(@RequestBody(required = true) @Valid AutorForm autorForm,
 			UriComponentsBuilder uriBuilder) {
 
-		//1
+		// 1
 		Autor autor = autorForm.converter();
 		autorRepository.save(autor);
 
 		URI uri = uriBuilder.path("/autores/{id}").buildAndExpand(autor.getId()).toUri();
-		return ResponseEntity.created(uri).body(autor);
+		return ResponseEntity.created(uri)
+				.body(new AutorDTO(autor.getId(), autor.getNome(), autor.getEmail(), autor.getDescricao()));
 
 	}
 

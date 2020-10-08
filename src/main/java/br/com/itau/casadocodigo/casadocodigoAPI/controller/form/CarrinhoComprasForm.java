@@ -2,6 +2,7 @@ package br.com.itau.casadocodigo.casadocodigoAPI.controller.form;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import br.com.itau.casadocodigo.casadocodigoAPI.config.validacao.anotacoes.CupomUtilizavel;
+import br.com.itau.casadocodigo.casadocodigoAPI.model.Cupom;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Livro;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.CupomRepository;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.LivroRepository;
@@ -42,9 +44,14 @@ public class CarrinhoComprasForm {
 
 		if (this.cupom.length() > 0) {
 
+			Cupom cupom = cupomRepository.findByCodigo(this.cupom).get();
+
 			valorTotalComDesconto = valorTotalComDesconto.add(valorTotalSemDesconto
-					.multiply(new BigDecimal(cupomRepository.findByCodigo(this.cupom).get().getPercentualDesconto() - 1)
-							.multiply(new BigDecimal(-1))));
+					.multiply(new BigDecimal(cupom.getPercentualDesconto() - 1).multiply(new BigDecimal(-1))));
+
+			cupom.setDataUtilizado(LocalDate.now());
+
+			cupomRepository.save(cupom);
 
 			valorAPagar.put("ValorComDesconto", valorTotalComDesconto);
 

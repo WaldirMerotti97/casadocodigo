@@ -25,6 +25,8 @@ import br.com.itau.casadocodigo.casadocodigoAPI.controller.form.PaisForm;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Autor;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Estado;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Pais;
+import br.com.itau.casadocodigo.casadocodigoAPI.model.dto.EstadoDTO;
+import br.com.itau.casadocodigo.casadocodigoAPI.model.dto.PaisDTO;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.PaisRepository;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.EstadoRepository;
 
@@ -32,32 +34,35 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.EstadoRepository;
 @RequestMapping(value = "casadocodigo/locais/")
 public class LocaisController {
 
-	//1
-	@Autowired
 	private PaisRepository paisRepository;
-	//1
-	@Autowired
 	private EstadoRepository estadoRepository;
+
+	public LocaisController(PaisRepository paisRepository, EstadoRepository estadoRepository) {
+
+		this.paisRepository = paisRepository;
+		this.estadoRepository = estadoRepository;
+
+	}
 
 	@PostMapping(value = "criarPais")
 	@Transactional
-	//1
-	public ResponseEntity<Pais> criarPais(@RequestBody(required = true) @Valid PaisForm paisForm,
+	// 1
+	public ResponseEntity<PaisDTO> criarPais(@RequestBody(required = true) @Valid PaisForm paisForm,
 			UriComponentsBuilder uriBuilder) {
 
-		//1
+		// 1
 		Pais pais = paisForm.converter();
 		paisRepository.save(pais);
 
 		URI uri = uriBuilder.path("/paises/{id}").buildAndExpand(pais.getId()).toUri();
-		return ResponseEntity.created(uri).body(pais);
+		return ResponseEntity.created(uri).body(new PaisDTO(pais.getId(), pais.getNome()));
 
 	}
 
 	@PostMapping(value = "criarEstado")
 	@Transactional
-	//1
-	public ResponseEntity<Estado> criarEstado(@RequestBody(required = true) @Valid EstadoForm estadoForm,
+	// 1
+	public ResponseEntity<EstadoDTO> criarEstado(@RequestBody(required = true) @Valid EstadoForm estadoForm,
 			UriComponentsBuilder uriBuilder) {
 
 		Optional<Pais> pais = paisRepository.findByNome(estadoForm.getPais());
@@ -65,7 +70,7 @@ public class LocaisController {
 		estadoRepository.save(estado);
 
 		URI uri = uriBuilder.path("/estados/{id}").buildAndExpand(estado.getId()).toUri();
-		return ResponseEntity.created(uri).body(estado);
+		return ResponseEntity.created(uri).body(new EstadoDTO(estado.getId(), estado.getNome()));
 
 	}
 

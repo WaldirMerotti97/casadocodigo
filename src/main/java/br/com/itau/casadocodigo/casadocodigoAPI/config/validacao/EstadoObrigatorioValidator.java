@@ -19,7 +19,7 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.PaisRepository;
 @Component
 public class EstadoObrigatorioValidator implements Validator {
 
-	//1
+	// 1
 	@Autowired
 	private PaisRepository paisRepository;
 	@PersistenceContext
@@ -38,11 +38,11 @@ public class EstadoObrigatorioValidator implements Validator {
 			return;
 		}
 
-		//1
+		// 1
 		NovaCompraForm novaCompra = (NovaCompraForm) target;
 
 		// pegar id do país
-		//1
+		// 1
 		int idPais = paisRepository.findByNome(novaCompra.getPais()).get().getId();
 		System.out.println("Id do pais: " + idPais);
 
@@ -54,7 +54,7 @@ public class EstadoObrigatorioValidator implements Validator {
 //		System.out.println("Lista de estados para o pais " + novaCompra.getPais() + ":");
 //		resultList.forEach(estado -> System.out.print(estado.getNome() + " "));
 
-		//1
+		// 1
 		if (!resultList.isEmpty() && (novaCompra.getEstado().isEmpty() || novaCompra.getEstado() == null))
 			errors.rejectValue("estado", null, "Informar o estado para este país é obrigatório!");
 

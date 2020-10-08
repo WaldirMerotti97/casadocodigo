@@ -21,44 +21,49 @@ import br.com.itau.casadocodigo.casadocodigoAPI.model.Autor;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Categoria;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Cupom;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Livro;
+import br.com.itau.casadocodigo.casadocodigoAPI.model.dto.CupomDTO;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.CupomRepository;
 
 @RestController
 @RequestMapping(value = "casadocodigo/cupons/")
 public class CupomController {
 
-	//1
-	@Autowired
 	private CupomRepository cupomRepository;
+
+	public CupomController(CupomRepository cupomRepository) {
+		this.cupomRepository = cupomRepository;
+	}
 
 	@PostMapping(value = "criarCupom")
 	@Transactional
-	//1
-	public ResponseEntity<Cupom> criarCupom(@RequestBody(required = true) @Valid CupomForm cupomForm,
+	// 1
+	public ResponseEntity<CupomDTO> criarCupom(@RequestBody(required = true) @Valid CupomForm cupomForm,
 			UriComponentsBuilder uriBuilder) {
 
-		//1
+		// 1
 		Cupom cupom = cupomForm.converter();
 		cupomRepository.save(cupom);
 
 		URI uri = uriBuilder.path("/cupom/{id}").buildAndExpand(cupom.getId()).toUri();
-		return ResponseEntity.created(uri).body(cupom);
+		return ResponseEntity.created(uri).body(
+				new CupomDTO(cupom.getId(), cupom.getCodigo(), cupom.getPercentualDesconto(), cupom.getDataValidade()));
 
 	}
 
 	@PutMapping(value = "alterarCupom")
 	@Transactional
-	//1
-	public ResponseEntity<Cupom> alterarCupom(@RequestBody(required = true) @Valid CupomForm cupomForm,
+	// 1
+	public ResponseEntity<CupomDTO> alterarCupom(@RequestBody(required = true) @Valid CupomForm cupomForm,
 			UriComponentsBuilder uriBuilder) {
 
-		//1
+		// 1
 		Optional<Cupom> cupom = cupomRepository.findByCodigo(cupomForm.getCodigo());
-		//1
+		// 1
 		Cupom cupomAlterado = cupomForm.alterarCupom(cupom.get() != null ? cupom.get() : null);
 		cupomRepository.save(cupomAlterado);
 
-		return ResponseEntity.ok(cupom.get());
+		return ResponseEntity.ok(new CupomDTO(cupomAlterado.getId(), cupomAlterado.getCodigo(),
+				cupomAlterado.getPercentualDesconto(), cupomAlterado.getDataValidade()));
 
 	}
 

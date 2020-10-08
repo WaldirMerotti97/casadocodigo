@@ -39,27 +39,26 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.PaisRepository;
 @RequestMapping(value = "casadocodigo/compras/")
 public class NovaCompraController {
 
-	// 1
-	@Autowired
 	private NovaCompraRepository novaCompraRepository;
-	// 1
-	@Autowired
 	private PaisRepository paisRepository;
-	// 1
-	@Autowired
 	private EstadoRepository estadoRepository;
-	// 1
-	@Autowired
 	private EstadoObrigatorioValidator estadoObrigatorioValidator;
-	// 1
-	@Autowired
 	private NovaCompraDetalhesRepository novaCompraDetalhesRepository;
-	// 1
-	@Autowired
 	private LivroRepository livroRepository;
-	// 1
-	@Autowired
 	private CupomRepository cupomRepository;
+
+	public NovaCompraController(NovaCompraRepository novaCompraRepository, PaisRepository paisRepository,
+			EstadoRepository estadoRepository, EstadoObrigatorioValidator estadoObrigatorioValidator,
+			NovaCompraDetalhesRepository novaCompraDetalhesRepository, LivroRepository livroRepository,
+			CupomRepository cupomRepository) {
+		this.novaCompraRepository = novaCompraRepository;
+		this.paisRepository = paisRepository;
+		this.estadoRepository = estadoRepository;
+		this.estadoObrigatorioValidator = estadoObrigatorioValidator;
+		this.novaCompraDetalhesRepository = novaCompraDetalhesRepository;
+		this.livroRepository = livroRepository;
+		this.cupomRepository = cupomRepository;
+	}
 
 	@InitBinder
 	public void init(WebDataBinder binder) {
