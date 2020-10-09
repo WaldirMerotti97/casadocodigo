@@ -14,6 +14,7 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.CupomRepository;
 
 public class CupomValidoValidator implements ConstraintValidator<CupomUtilizavel, String> {
 
+	// 1
 	@Autowired
 	private CupomRepository cupomRepository;
 
@@ -23,17 +24,22 @@ public class CupomValidoValidator implements ConstraintValidator<CupomUtilizavel
 		if (value.length() == 0)
 			return true;
 
+		// 1
 		Optional<Cupom> cupom = cupomRepository.findByCodigo((String) value);
 
+		// 1
 		if (cupom.isPresent()) {
 
 			LocalDate dataValidade = cupom.get().getDataValidade();
 			LocalDate dataUtilizado = cupom.get().getDataUtilizado();
 
+			// 1
 			if (dataUtilizado != null || LocalDate.now().isAfter(dataValidade))
 				return false;
+			// 1
 			else
 				return true;
+			// 1
 		} else {
 			return false;
 		}

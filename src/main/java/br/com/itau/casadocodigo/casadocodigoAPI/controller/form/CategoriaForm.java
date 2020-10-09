@@ -8,6 +8,7 @@ import br.com.itau.casadocodigo.casadocodigoAPI.model.Categoria;
 public class CategoriaForm {
 
 	@NotBlank
+	// 1
 	@UniqueValue(domainClass = Categoria.class, fieldName = "nome")
 	private String nome;
 

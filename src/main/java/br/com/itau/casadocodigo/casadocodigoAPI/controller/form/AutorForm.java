@@ -13,6 +13,7 @@ public class AutorForm {
 	private String nome;
 	@Email(message = "O email inserido deve ser válido!")
 	@NotBlank
+	// 1
 	@UniqueValue(domainClass = Autor.class, fieldName = "email")
 	private String email;
 	@NotBlank

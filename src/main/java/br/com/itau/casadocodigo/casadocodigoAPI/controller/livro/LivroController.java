@@ -1,4 +1,4 @@
-package br.com.itau.casadocodigo.casadocodigoAPI.controller;
+package br.com.itau.casadocodigo.casadocodigoAPI.controller.livro;
 
 import java.net.URI;
 import java.util.List;

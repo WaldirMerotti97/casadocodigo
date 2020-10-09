@@ -1,7 +1,6 @@
 package br.com.itau.casadocodigo.casadocodigoAPI.config.validacao;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -49,10 +48,8 @@ public class EstadoObrigatorioValidator implements Validator {
 		// com base nele, ver se tem estados na tabela
 		Query q = em.createNamedQuery("Estado.findByFKPais");
 		q.setParameter(1, idPais);
+		// 1
 		List<Estado> resultList = q.getResultList();
-
-//		System.out.println("Lista de estados para o pais " + novaCompra.getPais() + ":");
-//		resultList.forEach(estado -> System.out.print(estado.getNome() + " "));
 
 		// 1
 		if (!resultList.isEmpty() && (novaCompra.getEstado().isEmpty() || novaCompra.getEstado() == null))

@@ -17,6 +17,7 @@ public class QuantidadeLivrosValidator implements ConstraintValidator<Quantidade
 
 		int totalCalculadoServidor = 0;
 
+		// 1 //1
 		for (ItemForm item : carrinhoComprasForm.getItens()) {
 			totalCalculadoServidor += item.getQuantidade();
 		}

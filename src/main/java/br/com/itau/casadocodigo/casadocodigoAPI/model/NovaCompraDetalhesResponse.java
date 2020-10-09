@@ -15,8 +15,7 @@ public class NovaCompraDetalhesResponse {
 	// 1
 	private List<NovaCompraItensCarrinho> novaCompraItensCarrinho;
 
-	public NovaCompraDetalhesResponse(NovaCompra novaCompra, List<NovaCompraItensCarrinho> novaCompraItensCarrinho,
-			LivroRepository livroRepository) {
+	public NovaCompraDetalhesResponse(NovaCompra novaCompra, List<NovaCompraItensCarrinho> novaCompraItensCarrinho) {
 		this.novaCompra = novaCompra;
 		this.novaCompraItensCarrinho = novaCompraItensCarrinho;
 	}

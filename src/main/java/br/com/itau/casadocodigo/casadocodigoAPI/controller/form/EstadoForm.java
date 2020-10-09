@@ -10,12 +10,15 @@ import br.com.itau.casadocodigo.casadocodigoAPI.model.Pais;
 public class EstadoForm {
 
 	@NotBlank
+	// 1
 	@UniqueValue(domainClass = Estado.class, fieldName = "nome")
 	private String nome;
 	@NotBlank
+	// 1
 	@VerificaExistenciaTuplaRelacao(domainClass = Pais.class, fieldName = "nome")
 	private String pais;
 
+	// 1
 	public Estado converter(Pais pais) {
 		return new Estado(this.nome, pais);
 	}

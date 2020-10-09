@@ -15,7 +15,8 @@ import br.com.itau.casadocodigo.casadocodigoAPI.model.Cupom;
 public class CupomForm {
 
 	@NotBlank
-	//@UniqueValue(domainClass = Cupom.class, fieldName = "codigo")
+	// 1
+	@UniqueValue(domainClass = Cupom.class, fieldName = "codigo")
 	private String codigo;
 	@NotNull
 	@Positive
@@ -28,6 +29,7 @@ public class CupomForm {
 		return new Cupom(this.codigo, this.percentualDesconto, this.dataValidade);
 	}
 
+	// 1
 	public Cupom alterarCupom(Cupom cupom) {
 
 		cupom.setCodigo(this.codigo);

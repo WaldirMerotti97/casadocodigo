@@ -2,6 +2,7 @@ package br.com.itau.casadocodigo.casadocodigoAPI.controller.form;
 
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -27,6 +28,7 @@ public class NovaCompraForm {
 	@NotBlank
 	private String sobrenome;
 	@NotBlank
+	// 1
 	@CpfCnpj
 	private String documento;
 	@NotBlank
@@ -42,8 +44,8 @@ public class NovaCompraForm {
 	private String telefone;
 	@NotBlank
 	private String cep;
-	// 1
 	@Valid
+	// 1
 	@QuantidadeLivros
 	@NotNull
 	private CarrinhoComprasForm carrinhoComprasForm;
@@ -66,11 +68,21 @@ public class NovaCompraForm {
 	}
 
 	// 1 //1
-	public NovaCompra converter(Optional<Pais> pais, Optional<Estado> estado) {
-		// 1
+	public NovaCompra converter(Pais pais, Estado estado) {
+
 		return new NovaCompra(this.email, this.nome, this.sobrenome, this.documento, this.endereco, this.complemento,
-				this.cidade, pais.isPresent() ? pais.get() : null, estado.isPresent() ? estado.get() : null,
-				this.telefone, this.cep, this.carrinhoComprasForm, null, null);
+				this.cidade, pais, estado, this.telefone, this.cep, this.carrinhoComprasForm, null, null);
+	}
+
+	public void insereItensCarrinhoNovaCompra(EntityManager entityManager, NovaCompra novaCompra) {
+
+		// 1
+		this.getCarrinhoComprasForm().getItens().forEach(item -> {
+
+			entityManager.persist((new NovaCompraItensCarrinho(item.getIdLivro(), item.getQuantidade(), novaCompra)));
+
+		});
+
 	}
 
 	public String getEmail() {

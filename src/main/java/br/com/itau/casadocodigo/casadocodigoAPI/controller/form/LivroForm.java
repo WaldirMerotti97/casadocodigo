@@ -26,8 +26,8 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.AutorRepository;
 
 public class LivroForm {
 
-	//1
 	@NotBlank
+	// 1
 	@UniqueValue(domainClass = Livro.class, fieldName = "titulo")
 	private String titulo;
 	@NotBlank
@@ -43,21 +43,21 @@ public class LivroForm {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@Future
 	private LocalDate dataPublicacao;
-	//1
 	@NotBlank
+	// 1
 	@VerificaExistenciaTuplaRelacao(domainClass = Categoria.class, fieldName = "nome")
 	private String categoria;
 	@NotBlank
 	@VerificaExistenciaTuplaRelacao(domainClass = Autor.class, fieldName = "nome")
 	private String autor;
 
-	//1 //1
+	// 1 //1
 	public Livro converter(Optional<Autor> autor, Optional<Categoria> categoria) {
 
 		return new Livro(this.titulo, this.resumoLivro, this.sumario, this.preco, this.nroPaginas,
-				this.identificadorISBN, this.dataPublicacao, autor != null ? autor.get() : null, categoria != null ? categoria.get() : null);
+				this.identificadorISBN, this.dataPublicacao, autor != null ? autor.get() : null,
+				categoria != null ? categoria.get() : null);
 	}
-	
 
 	public String getTitulo() {
 		return titulo;

@@ -1,4 +1,4 @@
-package br.com.itau.casadocodigo.casadocodigoAPI.controller;
+package br.com.itau.casadocodigo.casadocodigoAPI.controller.cupom;
 
 import java.net.URI;
 import java.util.Optional;
@@ -28,6 +28,7 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.CupomRepository;
 @RequestMapping(value = "casadocodigo/cupons/")
 public class CupomController {
 
+	// 1
 	private CupomRepository cupomRepository;
 
 	public CupomController(CupomRepository cupomRepository) {
@@ -52,8 +53,7 @@ public class CupomController {
 
 	@PutMapping(value = "alterarCupom")
 	@Transactional
-	// 1
-	public ResponseEntity<CupomDTO> alterarCupom(@RequestBody(required = true) @Valid CupomForm cupomForm,
+	public ResponseEntity<CupomDTO> alterarCupom(@RequestBody(required = true) CupomForm cupomForm,
 			UriComponentsBuilder uriBuilder) {
 
 		// 1

@@ -7,8 +7,8 @@ import br.com.itau.casadocodigo.casadocodigoAPI.model.Pais;
 
 public class PaisForm {
 
-	//1
 	@NotBlank
+	// 1
 	@UniqueValue(domainClass = Pais.class, fieldName = "nome")
 	private String nome;
 

@@ -1,4 +1,4 @@
-package br.com.itau.casadocodigo.casadocodigoAPI.controller;
+package br.com.itau.casadocodigo.casadocodigoAPI.controller.novacompra;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,38 +28,33 @@ import br.com.itau.casadocodigo.casadocodigoAPI.controller.form.NovaCompraForm;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.NovaCompra;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.NovaCompraDetalhesResponse;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.NovaCompraItensCarrinho;
+import br.com.itau.casadocodigo.casadocodigoAPI.model.Cupom;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Estado;
 import br.com.itau.casadocodigo.casadocodigoAPI.model.Pais;
-import br.com.itau.casadocodigo.casadocodigoAPI.repository.NovaCompraRepository;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.CupomRepository;
-import br.com.itau.casadocodigo.casadocodigoAPI.repository.EstadoRepository;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.LivroRepository;
 import br.com.itau.casadocodigo.casadocodigoAPI.repository.NovaCompraDetalhesRepository;
-import br.com.itau.casadocodigo.casadocodigoAPI.repository.PaisRepository;
+import br.com.itau.casadocodigo.casadocodigoAPI.repository.NovaCompraRepository;
 
 @RestController
 @RequestMapping(value = "casadocodigo/compras/")
 public class NovaCompraController {
 
-	private NovaCompraRepository novaCompraRepository;
-	private PaisRepository paisRepository;
-	private EstadoRepository estadoRepository;
+	// 1
 	private EstadoObrigatorioValidator estadoObrigatorioValidator;
-	private NovaCompraDetalhesRepository novaCompraDetalhesRepository;
-	private LivroRepository livroRepository;
-	private CupomRepository cupomRepository;
 
-	public NovaCompraController(NovaCompraRepository novaCompraRepository, PaisRepository paisRepository,
-			EstadoRepository estadoRepository, EstadoObrigatorioValidator estadoObrigatorioValidator,
-			NovaCompraDetalhesRepository novaCompraDetalhesRepository, LivroRepository livroRepository,
-			CupomRepository cupomRepository) {
-		this.novaCompraRepository = novaCompraRepository;
-		this.paisRepository = paisRepository;
-		this.estadoRepository = estadoRepository;
+	@PersistenceContext
+	private EntityManager entityManager;
+
+	private NovaCompraRepository novaCompraRepository;
+
+	private NovaCompraDetalhesRepository novaCompraDetalhesRepository;
+
+	public NovaCompraController(EstadoObrigatorioValidator estadoObrigatorioValidator,
+			NovaCompraRepository novaCompraRepository, NovaCompraDetalhesRepository novaCompraDetalhesRepository) {
 		this.estadoObrigatorioValidator = estadoObrigatorioValidator;
+		this.novaCompraRepository = novaCompraRepository;
 		this.novaCompraDetalhesRepository = novaCompraDetalhesRepository;
-		this.livroRepository = livroRepository;
-		this.cupomRepository = cupomRepository;
 	}
 
 	@InitBinder
@@ -72,27 +69,23 @@ public class NovaCompraController {
 			UriComponentsBuilder uriBuilder) {
 
 		// 1
-		Optional<Pais> pais = paisRepository.findByNome(novaCompraForm.getPais());
+		Pais pais = (Pais) entityManager.createQuery("select p from Pais p where p.nome = ?1")
+				.setParameter(1, novaCompraForm.getPais()).getResultList().get(0);
 		// 1
-		Optional<Estado> estado = estadoRepository.findByNome(novaCompraForm.getEstado());
+		Estado estado = (Estado) entityManager.createQuery("select e from Estado e where e.nome = ?1")
+				.setParameter(1, novaCompraForm.getEstado()).getResultList().get(0);
+
 		// 1
 		NovaCompra novaCompra = novaCompraForm.converter(pais, estado);
 
-		Map<String, BigDecimal> valorAPagar = novaCompraForm.getCarrinhoComprasForm().verificaDesconto(livroRepository,
-				cupomRepository);
+		Map<String, BigDecimal> valorAPagar = novaCompraForm.getCarrinhoComprasForm().verificaDesconto(entityManager);
 
 		novaCompra.setValorSemDesconto(valorAPagar.get("ValorSemDesconto"));
 		novaCompra.setValorComDesconto(valorAPagar.get("ValorComDesconto"));
 
-		novaCompraRepository.save(novaCompra);
+		entityManager.persist(novaCompra);
 
-		// 1
-		novaCompraForm.getCarrinhoComprasForm().getItens().forEach(item -> {
-
-			novaCompraDetalhesRepository
-					.save(new NovaCompraItensCarrinho(item.getIdLivro(), item.getQuantidade(), novaCompra));
-
-		});
+		novaCompraForm.insereItensCarrinhoNovaCompra(entityManager, novaCompra);
 
 		URI uri = uriBuilder.path("casadocodigo/compras/detalhesCompras/{id}").buildAndExpand(novaCompra.getId())
 				.toUri();
@@ -104,7 +97,6 @@ public class NovaCompraController {
 	@Transactional
 	public ResponseEntity<NovaCompraDetalhesResponse> buscarDetalhesCompra(@PathVariable(required = true) int id) {
 
-		// 1
 		Optional<NovaCompra> compra = novaCompraRepository.findById(id);
 		// 1
 		Optional<List<NovaCompraItensCarrinho>> itensCarrinho = novaCompraDetalhesRepository.findByNovaCompra_Id(id);
@@ -114,7 +106,7 @@ public class NovaCompraController {
 			return ResponseEntity.badRequest().build();
 
 		return ResponseEntity.ok(new NovaCompraDetalhesResponse(compra != null ? compra.get() : null,
-				itensCarrinho != null ? itensCarrinho.get() : null, livroRepository));
+				itensCarrinho != null ? itensCarrinho.get() : null));
 
 	}
 

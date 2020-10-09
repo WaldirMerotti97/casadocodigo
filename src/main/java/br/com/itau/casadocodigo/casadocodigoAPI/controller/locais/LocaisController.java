@@ -1,4 +1,4 @@
-package br.com.itau.casadocodigo.casadocodigoAPI.controller;
+package br.com.itau.casadocodigo.casadocodigoAPI.controller.locais;
 
 import java.net.URI;
 import java.util.Optional;
@@ -34,7 +34,9 @@ import br.com.itau.casadocodigo.casadocodigoAPI.repository.EstadoRepository;
 @RequestMapping(value = "casadocodigo/locais/")
 public class LocaisController {
 
+	// 1
 	private PaisRepository paisRepository;
+	// 1
 	private EstadoRepository estadoRepository;
 
 	public LocaisController(PaisRepository paisRepository, EstadoRepository estadoRepository) {
@@ -66,6 +68,7 @@ public class LocaisController {
 			UriComponentsBuilder uriBuilder) {
 
 		Optional<Pais> pais = paisRepository.findByNome(estadoForm.getPais());
+		// 1
 		Estado estado = estadoForm.converter(pais.isPresent() ? pais.get() : null);
 		estadoRepository.save(estado);
 
